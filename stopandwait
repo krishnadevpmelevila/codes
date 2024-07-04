@@ -1,0 +1,43 @@
+ #include<stdio.h>
+#include<stdlib.h>
+int frameid = 0 ,flag,n;
+
+void sender()
+{
+	printf("The frame to be send: %d\n",frameid);
+}
+void retransmit()
+{
+	printf("Frame to be resend is:%d\n", frameid);
+}
+void receiver()
+{
+	do
+	{
+		printf("If received press 1 else press 0\n");
+		scanf("%d",&flag);
+		switch(flag)
+		{
+			case 1: printf("Acknowledged frame is: %d\n",frameid);
+				frameid++;
+				sender();
+				break;
+			case 0: printf("Frame %d is not received\n",frameid);
+				retransmit();
+				break;
+			default:printf("Error has occurred\n");
+		}
+	}
+	while(frameid <=n);
+}
+
+void main()
+{
+	printf("Enter the no of frames:\n");
+	scanf("%d",&n);
+	while(frameid < n)
+	{
+		sender();
+		receiver();
+	}
+}
