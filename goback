@@ -1,0 +1,54 @@
+#include<stdio.h>
+int j =1,i,n=6,id,ack,nack;
+void sender()
+{
+	printf("\nSliding window has frames:");
+	for(id=1;id<=6;id++)
+		printf("%d ",id);
+	for(id=1;id<=6;id++)
+		printf("\nFrame %d is transmitting",id);
+	id--;
+}
+void receiver()
+{
+	printf("\nEnter -1 if the frame is lost or corrupted else enter 0:");
+	scanf("%d",&nack);
+	if(nack ==0)
+	{
+		printf("\nEnter acknowledgement of last received frame:");
+		scanf("%d",&ack);
+	}
+}
+void goback()
+{
+	if(nack == -1)
+	{
+		printf("\nSliding window has frames..");
+		for(i =ack+1;i<=id;i++)
+			printf("%d ",i);
+		printf("\nRetransmitting frames:");
+		for(i=ack+1;i<=id;i++)
+			printf("%d ",i);	
+	}
+	if(id-ack == n-1)
+	{
+		id++;
+		printf("\nSliding window has frames:");
+		for(i=ack+1;i<=id;i++)
+			printf("%d ",i);
+		printf("\nFrame %d is transmitting..",id);
+	}
+}
+int main()
+{
+	int ch;
+	sender();
+	do
+	{
+		receiver();
+		goback();
+		printf("\nEnter 1, if you want to continue..");
+		scanf("%d",&ch);
+	}while(ch == 1);
+	return 0;
+}
