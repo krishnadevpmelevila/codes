@@ -1,0 +1,33 @@
+#include<stdio.h>
+int id,ack,beg=1,end=5;
+void sender()
+{
+	printf("\nTransmitting frames..");
+	for(id=beg;id<=end;id++)
+		printf("%d..",id);
+	beg+=5;
+	end+=5;
+}
+void receiver()
+{
+	printf("\nEnter negative acknowledgment if packet is lost or corrupted or enter 0: ");
+	scanf("%d",&ack);
+}
+void autorepeat()
+{
+	if(ack<0)
+		printf("\nFrame %d is retransmitting..",ack*-1);
+}
+int main()
+{
+	int ch;
+	do
+	{
+		sender();
+		receiver();
+		autorepeat();
+		printf("\nEnter 1, if you want to continue...");
+		scanf("%d",&ch);
+	}while(ch==1);
+	
+}
