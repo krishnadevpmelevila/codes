@@ -1,0 +1,122 @@
+
+#include <stdio.h>
+
+int a[10],size,f=-1,r=-1,item,i,cap,lk;
+
+
+void enq()
+{   int tot=0;
+    printf("enter pkt size...(<=%dMb) ..",lk);
+    scanf("%d",&item);
+    if(item>lk)
+    
+        printf("Packet size exceeds leak rate...\n");
+    else
+    {
+        for(i=f;i<=r;i++)
+        tot=tot+a[i];
+     
+        if(tot+item>cap)
+            {
+                printf("Bucket has packets...\t");
+                for(i=f;i<=r;i++)
+                printf("%d  ",a[i]);
+                printf("\nBucket capacity exceeds,so %d is discarded\n",item);
+            }
+        else if (r==size-1)
+            printf("Bucket is full\n");
+        else if (f==-1 && r==-1)
+            {
+                r++;
+                f++;
+                a[r]=item;
+            }
+        else
+            {
+                r++;
+                a[r]=item;
+            }
+         
+    }
+    
+}
+
+void deq()
+{
+    
+  
+    if (f==-1 && r==-1)
+    printf("Bucket is empty\n");
+    else if(f==r)
+    {
+       printf("%d is transmitted\n",a[f]);
+       f=-1;r=-1;
+    }
+    else
+    
+    {
+      printf("%d is transmitted\n",a[f]); 
+      f++;
+      
+    }
+  
+    
+}
+
+void count()
+{ int tot=0,ct=0;
+    if(f<r)
+    {
+        do
+        {
+        tot=tot+a[f];
+        ct++;
+        }while(tot+a[f+1]<=lk);
+        
+       printf("%d packet can be transmitted \n",ct);
+    
+        for(i=0;i<ct;i++)
+            deq();
+    }
+    else
+    deq();
+}
+
+
+void display()
+{
+    printf("Bucket has packets...\t");
+    for(i=f;i<=r;i++)
+    printf("%d  ",a[i]);
+}
+
+void main()
+{
+    int ch,c;
+    printf("enter maximum of elements in bucket...");
+    scanf("%d",&size);
+    printf("enter  capacity of bucket in Mb...");
+    scanf("%d",&cap);
+    printf("enter leak rate of bucket in Mb...");
+    scanf("%d",&lk);
+    do
+    {
+    printf("\n1.Add\t2.Transmit\t3.Display\t");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1:enq();break;
+        case 2:
+            count();
+           
+            break;
+            
+        
+        case 3:display();break;
+        
+    }
+        printf("\npress 1 if you want to continue\t");
+        scanf("%d",&c);
+    }while(c==1);
+
+}
